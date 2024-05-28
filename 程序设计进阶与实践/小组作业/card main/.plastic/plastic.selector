@@ -1,0 +1,4 @@
+repository "card main@ssl://bailancard@cloud.cn"
+  path "/"
+    smartbranch "/main" 
+     

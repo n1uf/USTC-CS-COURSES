@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Wed Nov 23 17:35:05 2022
+# Process ID: 40576
+# Current directory: C:/Users/niu/vivado/lab7_1/lab7_1.runs/impl_1
+# Command line: vivado.exe -log ROM.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ROM.tcl -notrace
+# Log file: C:/Users/niu/vivado/lab7_1/lab7_1.runs/impl_1/ROM.vdi
+# Journal file: C:/Users/niu/vivado/lab7_1/lab7_1.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source ROM.tcl -notrace

@@ -1,0 +1,11 @@
+0011 0000 0000 0000 ; start the program at location x3000
+0101 001 001 1 00000 ; clear R1, to be used for returning the sum
+0101 100 100 1 00000 ; clear R4, to be used as a counter
+0001 100 100 1 01010 ; load R4 with #10, the number of times to add
+1110 010 011111100 ; load the starting address of the data
+0110 011 010 000000 ; load the next number to be added
+0001 010 010 1 00001 ; increment the pointer
+0001 001 001 0 00 011 ; add the next number to the running sum
+0001 100 100 111111 ; decrement the counter
+0000 001 111111011 ; do it again if the counter is not yet zero
+1111 0000 00100101 ; halt

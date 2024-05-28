@@ -1,0 +1,337 @@
+#  for语句输出1到10之间的所有自然数的和
+sum = 0
+for i in range(1, 10):
+    sum += i
+print("The sum of 1 to 10 is %d" % sum)  # The sum of 1 to 10 is 45
+
+#  
+#  高斯消去法 第一个版本
+import numpy as np
+
+def Gaussian_elimination_v1(A):
+    m, n = np.shape(A)
+    for j in range(n - 1):
+        for i in range(j + 1, m):
+            A[i, :] -= (A[i, j] / A[j, j]) * A[j, :]
+    return A
+
+A = np.array([[2.0,3,5,7],[11,13,17,19],[23,29,31,37]])
+print (Gaussian_elimination_v1(A))
+
+B = np.array([[2.0,3,5,7],[12,18,17,19],[23,29,31,37]])
+print (Gaussian_elimination_v1(B))
+
+#  
+#  程序\ref{n2
+[[  2.           3.           5.           7.        ]
+ [  0.          -3.5        -10.5        -19.5       ]
+ [  0.           0.         -10.         -12.85714286]]
+[[  2.   3.   5.   7.]
+ [  0.   0. -13. -23.]
+ [ nan  nan -inf -inf]]
+C:\Users\user\.spyder-py3\temp.py:7: RuntimeWarning: divide by zero encountered in double_scalars
+  A[i, :] -= (A[i, j] / A[j, j]) * A[j, :]
+C:\Users\user\.spyder-py3\temp.py:7: RuntimeWarning: invalid value encountered in multiply
+  A[i, :] -= (A[i, j] / A[j, j]) * A[j, :]
+
+#  
+#  设置条件断点
+import numpy as np
+
+def Gaussian_elimination_v1(A):
+    m, n = np.shape(A)
+    for j in range(n - 1):
+        for i in range(j + 1, m):
+            if abs(A[j, j]) < 1e-10:
+                i += 0
+            A[i, :] -= (A[i, j] / A[j, j]) * A[j, :]
+    return A
+...
+
+#  
+#  高斯消去法 第二个版本
+import numpy as np
+
+def Gaussian_elimination_v2(A, tol = 1e-10):
+    m, n = np.shape(A)
+    i = 0
+    for j in range(n):
+        p = np.argmax(abs(A[i:m, j]))
+        if p > 0:                       # swap rows
+            A[[i, p + i]] = A[[p + i, i]]
+        if abs(A[i, j]) > tol:          # j is a pivot column
+            for r in range(i + 1, m):
+                A[r, j:] -= (A[r, j] / A[i, j]) * A[i, j:]
+            i += 1
+            if i >= m: break
+    return A, i
+
+#  
+#  异常处理
+def gcd(a, b):
+    """ compute the greatest common divisor of a and b using repeated subtractions """
+    while a != b:
+        if a > b:
+           a -= b;
+        else:
+            b -= a;
+    return a
+
+import sys
+try:
+    x = int(sys.argv[1])
+    y = int(sys.argv[2])
+except IndexError:
+    print('Two arguments must be supplied on the command line')
+except ValueError:
+    print('Each argument should be an integer.')
+
+print ('The greatest common divisor of %d and %d is %d' %\
+       (x, y, gcd(x, y)))
+
+#  
+#  程序\ref{c6
+In[1]: run d:\python\src\gcd_ex.py 4
+Out[1]: Two arguments must be supplied on the command line
+In[2]: run d:\python\src\gcd_ex.py 4 6o
+Out[2]: Each argument should be an integer.
+In[3]: run d:\python\src\gcd_ex.py 4 60
+Out[3]: The greatest common divisor of 4 and 60 is 4
+
+#  
+#  自定义异常类
+def gcd(a, b):
+    """ compute the greatest common divisor of a and b using repeated subtractions """
+    while a != b:
+        if a > b:
+           a -= b;
+        else:
+            b -= a;
+    return a
+
+class InputRangeError(Exception):
+    """Raised when an input is not in suitable range
+
+    Attributes:
+       message -- explanation of suitable range
+    """
+    def __init__(self, message):
+        self.message = message
+
+import sys
+try:
+    x = int(sys.argv[1])
+    y = int(sys.argv[2])
+    if x < 0 or y < 0:
+        raise InputRangeError('Each integer should be positive')
+except IndexError:
+    print('Two arguments must be supplied on the command line')
+except ValueError:
+    print('Each argument should be an integer.')
+except InputRangeError as ex:
+    print(ex.message)
+else:
+    print ('The greatest common divisor of %d and %d is %d' %\
+           (x, y, gcd(x, y)))
+finally:
+    print("executing finally clause")
+
+#  
+#  程序\ref{c8
+In[1]: run d:\python\src\gcd_ex.py -48 126
+Out[1]: Each integer should be positive
+        executing finally clause
+In[2]: run d:\python\src\gcd_ex.py 48 126
+Out[2]: The greatest common divisor of 48 and 126 is 6
+        executing finally clause
+
+#  
+#  文本文件rainfall.dat
+Average rainfall (in mm) in Rome: 1188 months between 1782 and 1970
+Jan  81.2
+Feb  63.2
+Mar  70.3
+Apr  55.7
+May  53.0
+Jun  36.4
+Jul  17.5
+Aug  27.5
+Sep  60.9
+Oct  117.7
+Nov  111.0
+Dec  97.9
+Year 792.9
+
+#  
+#  读写文本文件
+def extract_data(filename):
+    with open(filename, 'r') as infile:
+        infile.readline() # skip the first line
+        rainfall = {}
+        for line in infile:
+            if line.find('Year') >= 0: break
+            words = line.split() # words[0]: month, words[1]: rainfall
+            rainfall[words[0]] = float(words[1])
+    return rainfall
+
+import sys
+rainfall = extract_data('D:/Python/src/rainfall.dat')
+max = sys.float_info.min; min = sys.float_info.max; sum = 0
+for month in rainfall.keys():
+    rainfall_month = rainfall[month]
+    sum += rainfall_month
+    if max < rainfall_month:
+        max = rainfall_month; max_month = month
+    if min > rainfall_month:
+        min = rainfall_month; min_month = month
+
+with open('D:/Python/src/rainfall_stat.dat', 'w') as outfile:
+    outfile.write('The maximum rainfall of %.1f occurs in %s\n' %\
+                  (max, max_month))
+    outfile.write('The minimum rainfall of %.1f occurs in %s\n' %\
+                  (min, min_month))
+    outfile.write('The average rainfall is %.1f' % (sum / 12))
+
+#  
+#  rainfall\_stat.dat
+The maximum rainfall of 117.7 occurs in Oct
+The minimum rainfall of 17.5 occurs in Jul
+The average rainfall is 66.0
+
+#  
+#  读写CSV文件
+import csv, pprint
+with open('D:/Python/src/budget.csv', 'r') as infile:
+    table = [row for row in csv.reader(infile)]
+
+for r in range(1,len(table)):
+    for c in range(1, len(table[0])):
+        table[r][c] = float(table[r][c])
+
+row = [0.0]*len(table[0])
+row[0] = 'sum'
+for c in range(1, len(row)):
+    s = 0
+    for r in range(1, len(table)):
+        s += table[r][c]
+    row[c] = s
+table.append(row)
+pprint.pprint(table)
+
+with open('D:/Python/src/budget2.csv', 'w', newline='') as outfile:
+    writer = csv.writer(outfile)
+    for row in table:
+        writer.writerow(row)
+
+#  
+#  budget.csv
+,"year 1","year 2","year 3"
+"person 1",651000,651000,651000
+"person 2",1100500,950100,340000
+"person 3",740000,780000,800000
+
+#  
+#  budget2.csv
+,year 1,year 2,year 3
+person 1,651000.0,651000.0,651000.0
+person 2,1100500.0,950100.0,340000.0
+person 3,740000.0,780000.0,800000.0
+sum,2491500.0,2381100.0,1791000.0
+
+#  
+#  读写JSON文件
+import json, pprint
+
+contacts = [
+    {"Name":"Tom", "Phone":12345, "Address":"100 Wall St."},
+    {"Name":"Jerry", "Phone":54321, "Address":"200 Main St."},
+    {"Name":"Mary", "Phone":23415, "Address":"300 Fifth Ave."}
+    ]
+
+with open('D:/Python/src/contacts.json', 'w') as outfile:
+    json.dump(contacts, outfile)
+
+with open('D:/Python/src/contacts.json', 'r') as infile:
+    x = json.load(infile)
+
+pprint.pprint(x)
+
+#  
+#  contacts.json
+[{"Name": "Tom", "Phone": 12345, "Address": "100 Wall St."}, {"Name": "Jerry", "Phone": 54321, "Address": "200 Main St."}, {"Name": "Mary", "Phone": 23415, "Address": "300 Fifth Ave."}]
+
+#  
+#  程序\ref{cf
+[{'Address': '100 Wall St.', 'Name': 'Tom', 'Phone': 12345},
+ {'Address': '200 Main St.', 'Name': 'Jerry', 'Phone': 54321},
+ {'Address': '300 Fifth Ave.', 'Name': 'Mary', 'Phone': 23415}]
+
+#  
+#  读写pickle文件
+import pickle, pprint
+
+contacts = [
+    {"Name":"Tom", "Phone":12345, "Address":"100 Wall St."},
+    {"Name":"Jerry", "Phone":54321, "Address":"200 Main St."},
+    {"Name":"Mary", "Phone":23415, "Address":"300 Fifth Ave."}
+    ]
+
+with open('D:/Python/src/contacts.pickle', 'wb') as outfile:
+    pickle.dump(contacts, outfile)
+
+with open('D:/Python/src/contacts.pickle', 'rb') as infile:
+    x = pickle.load(infile)
+
+pprint.pprint(x)
+
+#  
+#  程序\ref{ci
+[{'Address': '100 Wall St.', 'Name': 'Tom', 'Phone': 12345},
+ {'Address': '200 Main St.', 'Name': 'Jerry', 'Phone': 54321},
+ {'Address': '300 Fifth Ave.', 'Name': 'Mary', 'Phone': 23415}]
+
+#  
+#  读写NumPy数组的文件
+In[1]: import numpy as np; a = np.arange(1, 16, 2)**2; a
+Out[1]: array([  1,   9,  25,  49,  81, 121, 169, 225], dtype=int32)
+In[2]: b = a.reshape(2, 4); b
+Out[2]:
+array([[  1,   9,  25,  49],
+       [ 81, 121, 169, 225]], dtype=int32)
+In[3]: np.savetxt('D:/Python/dat/b.txt', b)
+In[4]: c = np.loadtxt('D:/Python/dat/b.txt'); c
+Out[4]:
+array([[  1.,   9.,  25.,  49.],
+       [ 81., 121., 169., 225.]])
+In[5]: np.save('D:/Python/dat/b.npy', b)
+In[6]: c = np.load('D:/Python/dat/b.npy'); c
+Out[6]:
+array([[  1,   9,  25,  49],
+       [ 81, 121, 169, 225]])
+In[7]: np.savez('D:/Python/dat/ab.npz', a, b)
+In[8]: cd = np.load('D:/Python/dat/ab.npz')
+In[9]: c = cd['arr_0']; c
+Out[9]: array([  1,   9,  25,  49,  81, 121, 169, 225])
+In[10]: d = cd['arr_1']; d
+Out[10]:
+array([[  1,   9,  25,  49],
+       [ 81, 121, 169, 225]])
+In[11]: import pandas as pd
+In[12]: bf = pd.DataFrame(b); bf
+Out[12]:
+    0    1    2    3
+0   1    9   25   49
+1  81  121  169  225
+In[13]: bf.to_csv('D:/Python/dat/pb.csv')
+In[14]: df = pd.read_csv('D:/Python/dat/pb.csv'); df
+Out[14]:
+   Unnamed: 0   0    1    2    3
+0           0   1    9   25   49
+1           1  81  121  169  225
+
+In[15]: d = np.array(df); d
+Out[15]:
+array([[  0,   1,   9,  25,  49],
+       [  1,  81, 121, 169, 225]], dtype=int64)
+
+#  

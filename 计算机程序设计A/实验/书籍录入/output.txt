@@ -1,0 +1,17 @@
+Insert: Success!
+Insert: Success!
+Insert: Success!
+Insert: Success!
+ABC
+Delete: Success!
+Query Error: This book does not exist.
+
+D
+DEF
+
+G
+GHI
+
+J
+JKL
+

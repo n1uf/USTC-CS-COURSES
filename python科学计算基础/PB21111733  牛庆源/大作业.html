@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>大作业</title>
+  </head>
+  <body>
+    <h1 align="center">共享单车有关数据的可视化处理</h1>
+    <h1 align="center">计算机科学与技术学院&nbsp; PB21111733&nbsp; 牛庆源</h1>
+    <h2>1.科学技术原理</h2>
+    <p><font size="+1" face="宋体">&nbsp;
+        生活中我们经常使用共享单车，然而共享单车的相关数据我们却不太清楚，比如一天中什么时候的用户数量最多？一周内哪些天用户数量最多？用户
+        的平均骑行距离如何？诸如此类的问题偶尔会出现在我的脑中。从网上找到摩拜共享单车用csv形式存放的有关数据之后我开始了探究。<br>
+      </font> </p>
+    <p><font size="+1" face="宋体"> </font></p>
+    <p><font size="+1" face="宋体">&nbsp;
+        用pandas读取csv文件中的数据（geohash编码后的），用geohash库反编码得出经纬度坐标，对文件中的其他数据进行切片
+        等处理，使用seaborn和matplotlib绘一些图，观察图像得到直观性的结论。<br>
+      </font></p>
+    <p><font size="+1" face="宋体">&nbsp; 具体步骤如下：<br>
+      </font></p>
+    <p><font size="+1" face="宋体">&nbsp;
+        1.geohash编码算法。这是一种将二维坐标转化为字符串的算法，通过geohash反编码可以得到一串字符串代表的二维坐标。<br>
+        &nbsp;
+        2.通过geohash包里的neighbors近邻判断坐标是否在同一区域（编码后的字符串本身也带有一定的坐标含义）。<br>
+        &nbsp; 3.haversine公式计算起始终点位置的距离。<br>
+        &nbsp; 4.用切片对数据中的时间进行分类整理。<br>
+        &nbsp; 5.用seaborn和matplotlib绘图直观得到结论。<br>
+      </font></p>
+    <h2>2.设计方案</h2>
+    <h2>2.1geohash反编码</h2>
+    <p><font face="宋体"><font size="+1">&nbsp;&nbsp;&nbsp;
+          geohash.decode(s)<br>
+          &nbsp; s是编码后的字符串，输出结果是一个经纬度坐标。对csv文件的目标字符串使用反编码就可以得到所有的坐标。<br>
+        </font></font></p>
+    <h2>2.2neighbors近邻判断</h2>
+    <p><font size="+1" face="宋体">&nbsp;&nbsp;&nbsp; geohash.neighbors(s)<br>
+        &nbsp; s是编码后的字符串，对多个字符串使用该判断可以判断是否在同一区域。</font><br>
+    </p>
+    <h2>2.3时间切片</h2>
+    <p><font size="+1" face="宋体">&nbsp;&nbsp;&nbsp; df['weekday'] =
+        df['starttime'].apply(lambda s : s.weekday())<br>
+        &nbsp;&nbsp;&nbsp; df['day'] = df['starttime'].apply(lambda s :
+        str(s)[:10])<br>
+        &nbsp;&nbsp;&nbsp; df['hour'] = df['starttime'].apply(lambda s :
+        s.hour)<br>
+        &nbsp; 用lambda对文件中的数据进行切片操作便于依据不同标准绘图。</font><br>
+    </p>
+    <h2>2.4seaborn和matplot绘图</h2>
+    <p><font size="+1" face="宋体">&nbsp; 见操作</font><br>
+    </p>
+    <h2>3.创新性描述</h2>
+    <p><font size="+1"><font face="宋体">&nbsp; 程序比较简单，由自己完成。</font></font><br>
+    </p>
+    <h2>4.运行方法和参数设置</h2>
+    <p><font size="+1"><font face="宋体">&nbsp;
+          性能好一点的电脑在取样时可以将数值调高些，这里采用了0.1<br>
+        </font></font><span style="color: #d4d4d4;"><font
+          color="#000000"><font size="+1" face="宋体">&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp; #取样<br>
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; goal =
+            goal.sample(frac=0.1)<br>
+          </font></font></span><font size="+1"><font face="宋体">&nbsp;
+          f5运行程序<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; In
+          [1]:runfile('C:/Users/niu/Desktop/python/大作业/对共享单车数据的处理.py',
+          wdir='C:/Users/niu/Desktop/python/大作业')<br>
+          &nbsp; 检查是否录入数据<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; In [2]:goal.head()<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Out[2]: <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; orderid&nbsp;
+          userid&nbsp; ...&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+          geohashed_start_loc&nbsp; geohashed_end_loc<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2035318&nbsp;
+          3619706&nbsp; 814587&nbsp;
+          ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4ejtk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4ejsy<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          1530&nbsp;&nbsp;&nbsp;&nbsp; 1266433&nbsp; 839967&nbsp;
+          ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4dy03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4dwpf<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 28297&nbsp;&nbsp;&nbsp;
+          2090936&nbsp; 483097&nbsp;
+          ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4g4tq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4g4ss<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2557455&nbsp;
+          1531633&nbsp; 202169&nbsp;
+          ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4gd8j&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4gd8k<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 338954&nbsp;&nbsp;
+          3859181&nbsp; 223668&nbsp;
+          ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4erye&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          wx4g2j8<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; [5 rows x 7 columns]<br>
+          &nbsp; 进行geohash处理<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; In [3]:goal =
+          _processData(goal)<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 时间处理完成<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Geohash处理完成<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Geohash近邻判断处理完成<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 距离计算完成！！！<br>
+          &nbsp; 对时间进行绘图分析</font></font><br>
+      <font size="+1"><font face="宋体">&nbsp;&nbsp;</font></font><font
+        size="+1"><font face="宋体">&nbsp; &nbsp;&nbsp;&nbsp; </font></font><font
+        size="+1"><font face="宋体">In [4]:</font></font><font size="+1"><font
+          face="宋体">_time</font></font><font size="+1"><font face="宋体">Anal</font></font><font
+        size="+1"><font face="宋体">y</font></font><font size="+1"><font
+          face="宋体">sis(goal)</font></font><font size="+1"><font
+          face="宋体"><img moz-do-not-send="true"
+src="../../PB21111733%20%20%E7%89%9B%E5%BA%86%E6%BA%90/image/%E9%AA%91%E8%A1%8C%E6%97%B6%E9%97%B4%E6%AE%B5%E5%92%8C%E8%AE%A2%E5%8D%95%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB%E5%9B%BE.png"
+            alt="" align="middle" width="402" height="262"></font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp; 对出行距离的统</font></font><font
+        size="+1"><font face="宋体">计</font></font><br>
+      <font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; In [5]:goal['start_end</font></font><font
+        size="+1"><font face="宋体">_distance'].describe()<br>
+          &nbsp; 剔除异常值查看分布<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; In [6]:s</font></font><font
+        size="+1"><font face="宋体">tart_end_distance =
+          goal['start_end_distance']<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          strat_end_distance = start_end_distance.loc[start_end_distance
+          &lt; 5000]<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</font></font><font
+        size="+1"><font face="宋体">&nbsp; sns.d</font></font><font
+        size="+1"><font face="宋体">istplot(s</font></font><font size="+1"><font
+          face="宋体">tart_end_dis</font></font><font size="+1"><font
+          face="宋体">t</font></font><font size="+1"><font face="宋体">ance)</font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp; 不同时间的骑行距离</font></font><font
+        size="+1"><font face="宋体"><img moz-do-not-send="true"
+src="../../PB21111733%20%20%E7%89%9B%E5%BA%86%E6%BA%90/image/%E9%AA%91%E8%A1%8C%E8%B7%9D%E7%A6%BB%E5%88%86%E5%B8%83%E5%9B%BE.png"
+            alt="" width="405" height="263"></font></font><br>
+      <font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;</font></font><font
+        size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp; In [7]:hour</font></font><font
+        size="+1"><font face="宋体">_group = goal.groupby('hour')<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          hour_distance =
+          hour_group.agg({'start_end_distance':'mean'}).reset_index()<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          sns.barplot(x='hour',y='start_end_distance',data=hour_distance)<br>
+        </font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp; 不同时间的出行次数</font></font><font
+        size="+1"><font face="宋体"><img moz-do-not-send="true"
+src="../../PB21111733%20%20%E7%89%9B%E5%BA%86%E6%BA%90/image/%E4%B8%8D%E5%90%8C%E6%97%B6%E9%97%B4%E4%B8%8A%E7%9A%84%E5%B9%B3%E5%9D%87%E9%AA%91%E8%A1%8C%E8%B7%9D%E7%A6%BB.png"
+            alt="" width="390" height="262"></font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; In [8]:hour_num_df =
+          hour_group.agg({'orderid':'count'}).reset_index()<br>
+        </font></font><br>
+      <font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; hour_num_df.head()<br>
+        </font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; sns.barplot(</font></font><font
+        size="+1"><font face="宋体">x='hour',y='orderid',data=hour_num_df)<br>
+          &nbsp; 比较工作日与非工作日</font></font><font size="+1"><font face="宋体"><img
+            moz-do-not-send="true"
+src="../../PB21111733%20%20%E7%89%9B%E5%BA%86%E6%BA%90/image/%E4%B8%8D%E5%90%8C%E6%97%B6%E9%97%B4%E6%AE%B5%E5%87%BA%E8%A1%8C%E7%9A%84%E4%BA%BA%E6%95%B0.png"
+            alt="" width="402" height="262"></font></font><br>
+      <font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;</font></font><font
+        size="+1"><font face="宋体"> &nbsp;&nbsp;&nbsp; In
+          [9]:w_hour_group=goal.groupby(['isWeekend','hour'])<br>
+        </font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          w_hour_num_df=w_hour_group.agg({'orderid':'count'}).reset_index()<br>
+        </font></font></p>
+    <p><font size="+1"><font face="宋体">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          sns.barplot(x='hour',y='orderid',data=w_hour_num_df,hue='isWee</font></font><font
+        size="+1"><font face="宋体">kend')</font></font><br>
+      <font size="+1"><font face="宋体"><img moz-do-not-send="true"
+src="../../PB21111733%20%20%E7%89%9B%E5%BA%86%E6%BA%90/image/%E5%91%A8%E6%9C%AB%E5%92%8C%E5%B7%A5%E4%BD%9C%E6%97%A5%E8%AE%A2%E5%8D%95%E6%95%B0%E5%AF%B9%E4%BA%8E%E9%AA%91%E8%A1%8C%E6%97%B6%E9%97%B4%E6%AE%B5%E5%85%B3%E7%B3%BB%E5%9B%BE.png"
+            alt="" width="402" height="262"></font></font></p>
+    <h2>5.学习心得和收获</h2>
+    <font size="+1"><font face="宋体">&nbsp;
+        通过这次问题的解决，我体会到了python对于解决实际问题的便利性，即使是贴近生活但很难统计的事物也可以用python的处理得到简单可视的效果，
+        充分体现了python语言的便利性。这次对共享单车数据的探究让我熟悉了解析和处理csv文件的方法，为以后相关实际问题的解决铺好了
+        道路。感谢老师细致和翔实的教学，让我快速上手python这门语言。</font></font><br>
+    <h2>参考资料<br>
+    </h2>
+    <a
+      href="https://blog.csdn.net/qq_42310467/article/details/121809617">(26
+
+      条消息) Pandas库基础知识（一）_just表面兄弟的博客-CSDN博客_pandas库</a><br>
+    <a
+      href="https://blog.csdn.net/okiwilldoit/article/details/118897109">(26
+
+      条消息) GeoHash算法简介_okiwilldoit的博客-CSDN博客_geohash</a><br>
+  </body>
+</html>
