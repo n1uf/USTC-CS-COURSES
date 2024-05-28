@@ -1,2 +1,1 @@
-# USTC_Learning_Results
-Learning results from USTC
+# 一些学习记录
