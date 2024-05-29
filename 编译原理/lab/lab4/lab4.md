@@ -224,7 +224,7 @@ void Dominators::create_dom_tree_succ(Function *f) {
                     {   // 没有phi指令
                         auto phi = PhiInst::create_phi(global_name.second.type, dom_fron, {}, {});
                         dom_fron->add_instr_begin(static_cast<Instruction *>(phi));
-                        phi_list.insert({{dom_fron, global_name.first}, phi});
+                        phi_list.insert({ {dom_fron, global_name.first}, phi});
                         phi2alloc.insert({phi, global_name.first});
                         global_name.second.changed_list.insert(dom_fron);
                     }
