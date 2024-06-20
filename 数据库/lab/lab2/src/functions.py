@@ -237,7 +237,7 @@ def get_course(db, cursor, cid):
 # 3.查询某个学生的奖项
 def get_student_awards(db, cursor, sid):
     try:
-        cursor.execute("SELECT * FROM Award WHERE sid = %s", (sid,))
+        cursor.execute("SELECT Award.aname, Prizes.alevel, Award.adate FROM Award, Prizes WHERE sid = %s AND Award.aname = Prizes.aname", (sid,))
         result = cursor.fetchall()
         return result
     except Exception as e:
@@ -247,7 +247,7 @@ def get_student_awards(db, cursor, sid):
 # 4.查询某个学生的惩罚
 def get_student_punishs(db, cursor, sid):
     try:
-        cursor.execute("SELECT * FROM Punish WHERE sid = %s", (sid,))
+        cursor.execute("SELECT Punish.pname, Punishments.plevel, Punish.pdate FROM Punish, Punishments WHERE sid = %s AND Punish.pname = Punishments.pname", (sid,))
         result = cursor.fetchall()
         return result
     except Exception as e:
@@ -260,6 +260,7 @@ def get_student_scores(db, cursor, sid):
         cursor.execute("""SELECT scores.cid, cname, score, credit 
                         FROM Scores, Courses, Students 
                         WHERE scores.cid = courses.cid
+                        AND scores.sid = students.sid
                         AND scores.sid = %s""", (sid,))
         result = cursor.fetchall()
         return result
@@ -280,7 +281,7 @@ def get_student_score(db, cursor, sid, cid):
 # 7.查询某个学生某个奖项
 def get_student_award(db, cursor, sid, aname):
     try:
-        cursor.execute("SELECT * FROM Award WHERE sid = %s AND aname = %s", (sid, aname))
+        cursor.execute("SELECT Award.aname, Prizes.alevel, Award.adate FROM Award, Prizes WHERE sid = %s AND Award.aname = %s AND Award.aname = Prizes.aname", (sid, aname))
         result = cursor.fetchone()
         return result
     except Exception as e:
@@ -290,7 +291,7 @@ def get_student_award(db, cursor, sid, aname):
 # 8.查询某个学生某个惩罚
 def get_student_punish(db, cursor, sid, pname):
     try:
-        cursor.execute("SELECT * FROM Punish WHERE sid = %s AND pname = %s", (sid, pname))
+        cursor.execute("SELECT Punish.pname, Punishments.plevel, Punish.pdate FROM Punish, Punishments WHERE sid = %s AND Punish.pname = %s AND Punish.pname = Punishments.pname", (sid, pname))
         result = cursor.fetchone()
         return result
     except Exception as e:
@@ -349,6 +350,15 @@ def get_student_credit(db, cursor, sid):
     except Exception as e:
         print(f"ERROR:{e}")
         return
+
+# 4.查询某个学生的平均成绩
+def get_student_average(db, cursor, sid):
+    try:
+        cursor.execute("SELECT GetAverageScore(%s) as AverageScore", (sid,))
+        result = cursor.fetchone()
+        return result
+    except Exception as e:
+        print(f"ERROR:{e}")
 
 # 一些修改操作
 # 1.修改课程属性

@@ -3,7 +3,7 @@ import pymysql
 # 触发器
 def db_triggers(db, cursor):
 
-    # 删除学生，课程，惩罚，奖项时自动删除相关成绩，日期
+    # 删除操作删除关联内容
     try:
         cursor.execute("DROP TRIGGER IF EXISTS trg_delete_student")
         db.commit()

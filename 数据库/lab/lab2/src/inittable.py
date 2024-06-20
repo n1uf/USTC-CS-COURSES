@@ -97,7 +97,7 @@ def create_table(db, cursor):
         CREATE TABLE Courses (
         cid CHAR(12) PRIMARY KEY,
         cname VARCHAR(64) NOT NULL,
-        credit INT NOT NULL
+        credit FLOAT NOT NULL
         )
         """)
         db.commit()

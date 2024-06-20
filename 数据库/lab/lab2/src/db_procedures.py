@@ -41,7 +41,7 @@ def db_procedures(db, cursor):
         """)
         return
 
-# 修改学号
+    # 2.修改学号
     try:
         cursor.execute("DROP PROCEDURE IF EXISTS updateStudentID")
         db.commit()
