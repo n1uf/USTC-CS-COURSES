@@ -74,6 +74,13 @@ def db_procedures(db, cursor):
         SET sid = new_id
         WHERE sid = old_id;
 
+        ALTER TABLE StuLogin
+        DROP FOREIGN KEY StuLogin_sforeign;
+
+        UPDATE StuLogin
+        SET sid = new_id
+        WHERE sid = old_id;
+
         UPDATE Students
         SET sid = new_id
         WHERE sid = old_id;
@@ -86,6 +93,9 @@ def db_procedures(db, cursor):
 
         ALTER TABLE Award
         ADD CONSTRAINT Award_sforeign FOREIGN KEY (sid) REFERENCES Students (sid);
+
+        ALTER TABLE StuLogin
+        ADD CONSTRAINT StuLogin_sforeign FOREIGN KEY (sid) REFERENCES Students (sid);
     END
     """)
         db.commit()

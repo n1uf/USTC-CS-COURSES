@@ -123,3 +123,51 @@ def db_triggers(db, cursor):
         print(f"ERROR:{e}")
         db.rollback()
         return
+
+    # 新增学生时，自动新增学生登录信息
+    try:
+        cursor.execute("DROP TRIGGER IF EXISTS trg_insert_student")
+        db.commit()
+    except Exception as e:
+        print(f"ERROR:{e}")
+        db.rollback()
+        return
+    
+    try:
+        cursor.execute("""
+    CREATE TRIGGER trg_insert_student
+    AFTER INSERT ON Students
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO StuLogin (sid, password) VALUES (NEW.sid, '123456');
+    END
+    """)
+        db.commit()
+    except Exception as e:
+        print(f"ERROR:{e}")
+        db.rollback()
+        return
+
+    # 修改学生学号时，自动更新学生登录信息
+    try:
+        cursor.execute("DROP TRIGGER IF EXISTS trg_update_student")
+        db.commit()
+    except Exception as e:
+        print(f"ERROR:{e}")
+        db.rollback()
+        return
+
+    try:
+        cursor.execute("""
+    CREATE TRIGGER trg_update_student
+    AFTER UPDATE ON Students
+    FOR EACH ROW
+    BEGIN
+        UPDATE StuLogin SET sid = NEW.sid WHERE sid = OLD.sid;
+    END
+    """)
+        db.commit()
+    except Exception as e:
+        print(f"ERROR:{e}")
+        db.rollback()
+        return

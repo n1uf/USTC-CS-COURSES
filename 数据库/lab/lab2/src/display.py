@@ -2,7 +2,7 @@ import sys
 import io
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QGroupBox, QHBoxLayout, QMessageBox
 from PyQt6.QtWidgets import QTabWidget, QGridLayout, QLineEdit, QLabel, QFileDialog, QDialog, QTableWidget, QTableWidgetItem
-from PyQt6.QtCore import QByteArray
+from PyQt6.QtCore import QByteArray, pyqtSlot
 from PyQt6.QtGui import QIcon, QPixmap, QImage, QColor 
 
 from PIL import Image
@@ -96,7 +96,7 @@ class AddStudentWindow(QDialog):
             info = functions.get_student(self.db, self.cursor, self.ID)
             if (info != None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '该学号已存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '该学号已存在') 
                 return
             
         if (len(self.input_box2.text()) != 0):
@@ -111,7 +111,7 @@ class AddStudentWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '性别输入有误') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '性别输入有误') 
                 return
 
         if (len(self.input_box4.text()) != 0):
@@ -122,7 +122,7 @@ class AddStudentWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '年龄不合法') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '年龄不合法') 
                 return
             
         if (len(self.input_box5.text()) != 0):
@@ -133,7 +133,7 @@ class AddStudentWindow(QDialog):
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '缺少信息') 
 
 
     def choosePhoto(self):
@@ -226,7 +226,7 @@ class AddClassWindow(QDialog):
             info = functions.get_course(self.db, self.cursor, self.ID)
             if (info != None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '该课程号已存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '该课程号已存在') 
                 return
             
         if (len(self.input_box2.text()) != 0):
@@ -241,14 +241,14 @@ class AddClassWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '学分不合法') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '学分不合法') 
                 return
 
         if acceptflag == 3:
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '缺少信息') 
 
 
     def get_entered_ID(self):
@@ -272,21 +272,21 @@ class AddPrizeWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel("奖项：")
         self.label2 = QLabel("等级：")
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入新的奖项...")
         self.input_box2 = QLineEdit(self)
         self.input_box2.setPlaceholderText("在此输入等级...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -309,7 +309,7 @@ class AddPrizeWindow(QDialog):
             info = functions.get_prize(self.db, self.cursor, self.name)
             if (info != None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '该奖项已存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '该奖项已存在') 
                 return
             
         if (len(self.input_box2.text()) != 0):
@@ -320,7 +320,7 @@ class AddPrizeWindow(QDialog):
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '缺少信息') 
 
     def get_entered_Name(self):
         return self.name
@@ -340,21 +340,21 @@ class AddPunishmentWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel("惩罚：")
         self.label2 = QLabel("等级：")
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入新的惩罚...")
         self.input_box2 = QLineEdit(self)
         self.input_box2.setPlaceholderText("在此输入等级...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -377,7 +377,7 @@ class AddPunishmentWindow(QDialog):
             info = functions.get_punishment(self.db, self.cursor, self.name)
             if (info != None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '该惩罚已存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '该惩罚已存在') 
                 return
             
         if (len(self.input_box2.text()) != 0):
@@ -388,7 +388,7 @@ class AddPunishmentWindow(QDialog):
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '缺少信息') 
 
     def get_entered_Name(self):
         return self.name
@@ -415,7 +415,7 @@ class AddPASWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel("学生学号：")
         if self.kind == 0:
             self.label2 = QLabel("奖项名称：")
@@ -427,7 +427,7 @@ class AddPASWindow(QDialog):
             self.label2 = QLabel("课程号：")
             self.label3 = QLabel("成绩：")
         
-        # 创建 QLineEdit 对象
+
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入学号...")
         self.input_box2 = QLineEdit(self)
@@ -441,11 +441,11 @@ class AddPASWindow(QDialog):
         else:
             self.input_box3.setPlaceholderText("在此输入时间...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -472,7 +472,7 @@ class AddPASWindow(QDialog):
             info = functions.get_student(self.db, self.cursor, self.ID)
             if (info == None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '学生不存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '学生不存在') 
                 return
             
         if (len(self.input_box2.text()) != 0):
@@ -484,27 +484,27 @@ class AddPASWindow(QDialog):
                 info = functions.get_prize(self.db, self.cursor, self.name)
                 if (info == None):
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '奖项不存在') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '奖项不存在') 
                     return
                 info = functions.get_student_award(self.db, self.cursor, self.ID, self.name)
             if self.kind == 1:
                 info = functions.get_punishment(self.db, self.cursor, self.name)
                 if (info == None):
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '惩罚不存在') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '惩罚不存在') 
                     return
                 info = functions.get_student_punish(self.db, self.cursor, self.ID, self.name)
             if self.kind == 2:
                 info = functions.get_course(self.db, self.cursor, self.name)
                 if (info == None):
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '课程不存在') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '课程不存在') 
                     return
                 info = functions.get_student_score(self.db, self.cursor, self.ID, self.name)
-            if (info != None):
-                widget = QWidget()
-                QMessageBox.information(widget, '信息', '已存在') #触发的事件时弹出会话框
-                return
+                if (info != None):
+                    widget = QWidget()
+                    QMessageBox.information(widget, '信息', '已经有成绩了') 
+                    return
 
         if (len(self.input_box3.text()) != 0):
             acceptflag += 1
@@ -514,7 +514,7 @@ class AddPASWindow(QDialog):
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框    
+            QMessageBox.information(widget, '信息', '缺少信息')     
 
     def get_entered_ID(self):
         return self.ID
@@ -548,8 +548,7 @@ class ShowAllTable(QWidget):
             info = functions.get_prizes(self.db, self.cursor)
         if (self.kind == 4):
             info = functions.get_punishments(self.db, self.cursor)
-        #print(info)
-        # 创建表格
+
         try:
             if (self.kind == 0 or self.kind == 2):
                 leninfo = 5
@@ -572,17 +571,17 @@ class ShowAllTable(QWidget):
             print(f"ERROR:{e}")
             return
         
-        # 填充表格数据
+
         for i in range(len(info)):
             for j in range(leninfo):
                     item = QTableWidgetItem(str(info[i][j]))
                     self.table.setItem(i, j, item)
 
-        # 创建关闭按钮
+        
         self.closeButton = QPushButton('Close', self)
         self.closeButton.clicked.connect(self.close)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout.addWidget(self.table)
         bottomLayout = QHBoxLayout()
@@ -602,15 +601,15 @@ class GetStudentinfoById(QDialog):
 
     def init_ui(self):
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入学号...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.input_box1)
@@ -627,7 +626,7 @@ class GetStudentinfoById(QDialog):
             info = functions.get_student(self.db, self.cursor, self.sid)
             if info == None:
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '学生不存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '学生不存在') 
             else:
                 self.acceptflag = True
                 self.sname = info[1]
@@ -702,37 +701,37 @@ class Studentinfo(QWidget):
             print(f"ERROR:{e}")
             return
 
-        # 创建表格
+        
         self.table1 = QTableWidget(len(scoreinfo), 4)
         self.table1.setHorizontalHeaderLabels(['课程号','课程名','成绩','学分'])
-        # 填充表格数据
+        
         for i in range(len(scoreinfo)):
             for j in range(4):
                     item = QTableWidgetItem(str(scoreinfo[i][j]))
                     self.table1.setItem(i, j, item)
-        # 创建表格
+        
         self.table2 = QTableWidget(len(punishinfo), 3)
         self.table2.setHorizontalHeaderLabels(['惩罚项目','惩罚等级','时间'])
-        # 填充表格数据
+        
         for i in range(len(punishinfo)):
             for j in range(3):
                     item = QTableWidgetItem(str(punishinfo[i][j]))
                     self.table2.setItem(i, j, item)
 
-        # 创建表格
+        
         self.table3 = QTableWidget(len(prizeinfo), 3)
         self.table3.setHorizontalHeaderLabels(['奖项','奖励等级','时间'])
-        # 填充表格数据
+        
         for i in range(len(prizeinfo)):
             for j in range(3):
                     item = QTableWidgetItem(str(prizeinfo[i][j]))
                     self.table3.setItem(i, j, item)
 
-        # 创建关闭按钮
+        
         self.closeButton = QPushButton('Close', self)
         self.closeButton.clicked.connect(self.close)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout_base = QHBoxLayout()
         layout_base1 = QVBoxLayout()
@@ -761,9 +760,11 @@ class Studentinfo(QWidget):
         self.setLayout(layout)
 
 class ChangeStudentWindow(QDialog):
-    def __init__(self, db, cursor, oldinfo):
+    def __init__(self, db, cursor, oldinfo, kind):
         super().__init__()
         self.db = db
+        self.cursor = cursor
+        self.kind = kind
         self.ID = oldinfo[0]
         self.name = oldinfo[1]
         self.sex = oldinfo[2]
@@ -776,16 +777,19 @@ class ChangeStudentWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
-        self.label1 = QLabel(f"从{self.ID}修改为：")
+        
+        if self.kind == 0:
+            self.label1 = QLabel(f"从{self.ID}修改为：")
+
         self.label2 = QLabel(f"从{self.name}修改为：")
         self.label3 = QLabel(f"从{self.sex}修改为：")
         self.label4 = QLabel(f"从{self.age}修改为：")
         self.label5 = QLabel(f"从{self.major}修改为：")
 
-        # 创建 QLineEdit 对象
-        self.input_box1 = QLineEdit(self)
-        self.input_box1.setPlaceholderText("在此输入新的学号...")
+        
+        if self.kind == 0:
+            self.input_box1 = QLineEdit(self)
+            self.input_box1.setPlaceholderText("在此输入新的学号...")
         self.input_box2 = QLineEdit(self)
         self.input_box2.setPlaceholderText("在此输入新的姓名...")
         self.input_box3 = QLineEdit(self)
@@ -795,19 +799,20 @@ class ChangeStudentWindow(QDialog):
         self.input_box5 = QLineEdit(self)
         self.input_box5.setPlaceholderText("在此输入新的专业...")
 
-        # 创建上传照片按钮
+        
         self.chooseButton = QPushButton('选择要上传的照片', self)
         self.chooseButton.clicked.connect(self.choosePhoto)
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
-        layout1 = QHBoxLayout()
-        layout1.addWidget(self.label1)
-        layout1.addWidget(self.input_box1)
+        if self.kind == 0:
+            layout1 = QHBoxLayout()
+            layout1.addWidget(self.label1)
+            layout1.addWidget(self.input_box1)
         layout2 = QHBoxLayout()
         layout2.addWidget(self.label2)
         layout2.addWidget(self.input_box2)
@@ -824,7 +829,8 @@ class ChangeStudentWindow(QDialog):
         layout6.addWidget(self.chooseButton)
         bottomLayout = QHBoxLayout()
         bottomLayout.addWidget(self.closeButton)
-        layout.addLayout(layout1)
+        if self.kind == 0:            
+            layout.addLayout(layout1)
         layout.addLayout(layout2)
         layout.addLayout(layout3)
         layout.addLayout(layout4)
@@ -835,9 +841,17 @@ class ChangeStudentWindow(QDialog):
 
     def get_text(self):
         
-        if (len(self.input_box1.text()) != 0):
-            self.acceptflag = True
-            self.ID = self.input_box1.text()
+        if self.kind == 0:
+            if (len(self.input_box1.text()) != 0):
+                self.acceptflag = True
+                self.ID = self.input_box1.text()
+                # print(self.ID)
+                info = functions.get_student(self.db, self.cursor, self.ID)
+                # print(info)
+                if (info != None):
+                    widget = QWidget()
+                    QMessageBox.information(widget, '信息', '该学号已存在')
+                    return
         if (len(self.input_box2.text()) != 0):
             self.acceptflag = True
             self.name = self.input_box2.text()
@@ -850,7 +864,7 @@ class ChangeStudentWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '性别输入有误') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '性别输入有误') 
 
         if (len(self.input_box4.text()) != 0):
             try:
@@ -860,7 +874,7 @@ class ChangeStudentWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '年龄不合法') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '年龄不合法') 
         
         if (len(self.input_box5.text()) != 0):
             self.acceptflag = True
@@ -914,12 +928,12 @@ class ChangeClassWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel(f"从{self.ID}修改为：")
         self.label2 = QLabel(f"从{self.name}修改为：")
         self.label3 = QLabel(f"从{self.credit}修改为：")
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入新的课程号...")
         self.input_box2 = QLineEdit(self)
@@ -927,11 +941,11 @@ class ChangeClassWindow(QDialog):
         self.input_box3 = QLineEdit(self)
         self.input_box3.setPlaceholderText("在此输入新的学分...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -966,7 +980,7 @@ class ChangeClassWindow(QDialog):
             except Exception as e:
                 print(f"ERROR:{e}")
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '学分不合法') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '学分不合法') 
         if acceptflag:
             self.accept()
 
@@ -991,21 +1005,21 @@ class DeleteScoreWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel("学生学号：")
         self.label2 = QLabel("课程号：")
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入学号...")
         self.input_box2 = QLineEdit(self)
         self.input_box2.setPlaceholderText("在此输入课程号...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -1034,7 +1048,7 @@ class DeleteScoreWindow(QDialog):
             self.accept()
         else:
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '缺少信息') #触发的事件时弹出会话框    
+            QMessageBox.information(widget, '信息', '缺少信息')     
 
     def get_entered_sid(self):
         return self.sid
@@ -1053,21 +1067,21 @@ class DeletePAWindow(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLabel 对象
+        
         self.label1 = QLabel("学号：")
         self.label2 = QLabel("奖项/惩罚：")
 
-        # 创建 QLineEdit 对象
+        
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入学号...")
         self.input_box2 = QLineEdit(self)
         self.input_box2.setPlaceholderText("在此输入奖项/惩罚...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout1 = QHBoxLayout()
         layout1.addWidget(self.label1)
@@ -1090,7 +1104,7 @@ class DeletePAWindow(QDialog):
             info = functions.get_student(self.db, self.cursor, self.ID)
             if (info == None):
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '学生不存在') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '学生不存在') 
                 return
         if (len(self.input_box2.text()) != 0):
             acceptflag += 1
@@ -1100,7 +1114,7 @@ class DeletePAWindow(QDialog):
                 info = functions.get_student_award(self.db, self.cursor, self.ID, self.name)
                 if (info == None):
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '该学生没有该奖项') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '该学生没有该奖项') 
                     return
             if self.kind == 1:
                 info = functions.get_student_punish(self.db, self.cursor, self.ID, self.name)
@@ -1130,15 +1144,15 @@ class EnterSingleText(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # 创建 QLineEdit 对象
+        
         self.input_box = QLineEdit(self)
         self.input_box.setPlaceholderText("在此输入...")
 
-        # 创建确认按钮
+        
         self.closeButton = QPushButton('确认', self)
         self.closeButton.clicked.connect(self.get_text)
 
-        # 设置布局
+        
         layout = QVBoxLayout()
         layout.addWidget(self.input_box)
         bottomLayout = QHBoxLayout()
@@ -1153,12 +1167,12 @@ class EnterSingleText(QDialog):
     def get_entered_text(self):
         return self.text
 
-class Main_Window(QWidget):
+class Admin_Window(QWidget):
     def __init__(self, db, cursor):
         super().__init__()
         self.db = db
         self.cursor = cursor
-        self.setWindowTitle('学籍管理系统')
+        self.setWindowTitle('学籍管理系统（管理员界面）')
         self.resize(800, 600)
         
         self.init_ui()
@@ -1187,9 +1201,9 @@ class Main_Window(QWidget):
             ('新增课程', self.add_class),
             ('新增奖项', self.add_prize),
             ('新增惩罚', self.add_punishment),
+            ('新增成绩', self.add_score),
             ('为学生添加惩罚', self.add_punish_for_student),
-            ('为学生添加奖项', self.add_prize_for_student),
-            ('新增成绩', self.add_score)
+            ('为学生添加奖项', self.add_prize_for_student)
         ]
 
         for i, (text, slot) in enumerate(buttons):
@@ -1208,7 +1222,7 @@ class Main_Window(QWidget):
         buttons = [
             ('查看学生名单', self.check_all_students),
             ('查看全部课程', self.check_all_classes),
-            ('按姓名查询', self.check_student_name),
+            ('按姓名查询学生名单', self.check_student_name),
             ('学号查询具体信息', self.check_student_info),
             ('查看全部奖项', self.check_all_prizes),
             ('查看全部惩罚', self.check_all_punishments)
@@ -1250,9 +1264,9 @@ class Main_Window(QWidget):
             ('删除课程', self.delete_class),
             ('删除奖项', self.delete_prize),
             ('删除惩罚', self.delete_punishment),
-            ('删除成绩', self.delete_score),
             ('删除学生奖项', self.delete_prize_for_student),
-            ('删除学生惩罚', self.delete_punish_for_student)
+            ('删除学生惩罚', self.delete_punish_for_student),
+            ('删除成绩', self.delete_score)
         ]
 
         for i, (text, slot) in enumerate(buttons):
@@ -1294,7 +1308,7 @@ class Main_Window(QWidget):
             newPhoto = self.newWindow.get_entered_Photo()
             functions.add_student(self.db, self.cursor, newID, newName, newSex, newAge, newMajor, newPhoto)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
     
     def add_class(self):
         self.newWindow = AddClassWindow(self.db, self.cursor)
@@ -1304,7 +1318,7 @@ class Main_Window(QWidget):
             newCredit = self.newWindow.get_entered_Credit()
             functions.add_course(self.db, self.cursor, newID, newName, newCredit)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     def add_prize(self):
         self.newWindow = AddPrizeWindow(self.db, self.cursor)
@@ -1313,7 +1327,7 @@ class Main_Window(QWidget):
             newGrade = self.newWindow.get_entered_Grade()
             functions.add_prize(self.db, self.cursor, newName, newGrade)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     def add_punishment(self):
         self.newWindow = AddPunishmentWindow(self.db, self.cursor)
@@ -1322,7 +1336,7 @@ class Main_Window(QWidget):
             newGrade = self.newWindow.get_entered_Grade()
             functions.add_punishment(self.db, self.cursor, newName, newGrade)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     def add_prize_for_student(self):
         self.newWindow = AddPASWindow(self.db, self.cursor, 0)
@@ -1332,7 +1346,7 @@ class Main_Window(QWidget):
             newTime = self.newWindow.get_entered_timescore()
             functions.add_award(self.db, self.cursor, newID, newName, newTime)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     def add_punish_for_student(self):
         self.newWindow = AddPASWindow(self.db, self.cursor, 1)
@@ -1342,7 +1356,7 @@ class Main_Window(QWidget):
             newTime = self.newWindow.get_entered_timescore()
             functions.add_punish(self.db, self.cursor, newID, newName, newTime)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     def add_score(self):
         self.newWindow = AddPASWindow(self.db, self.cursor, 2)
@@ -1352,7 +1366,7 @@ class Main_Window(QWidget):
             newScore = self.newWindow.get_entered_timescore()
             functions.add_score(self.db, self.cursor, newID, newName, newScore)
             widget = QWidget()
-            QMessageBox.information(widget, '信息', '添加成功') #触发的事件时弹出会话框
+            QMessageBox.information(widget, '信息', '添加成功') 
 
     
 
@@ -1367,7 +1381,7 @@ class Main_Window(QWidget):
     def check_student_name(self):
         getname = EnterSingleText('查询','姓名')
         if getname.exec():
-            # 如果用户点击确认按钮，则获取输入的文本
+            
             name = getname.get_entered_text()
             self.tableWindow = ShowAllTable(self.db, self.cursor, 2, name)
             self.tableWindow.show()
@@ -1397,7 +1411,7 @@ class Main_Window(QWidget):
     def change_class(self):
         getID = EnterSingleText('修改','课程号')
         if getID.exec():
-            # 如果用户点击确认按钮，则获取输入的文本
+            
             oldID = getID.get_entered_text()
             oldinfo = functions.get_course(self.db, self.cursor, oldID)
             if oldinfo == None:
@@ -1413,19 +1427,19 @@ class Main_Window(QWidget):
                     functions.change_course(self.db, self.cursor, oldID, 2, newCredit)
                     functions.change_courseid(self.db, self.cursor, oldID, newID)
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '修改成功') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '修改成功') 
 
     def change_student(self):
         getID = EnterSingleText('修改','学生的学号')
         if getID.exec():
-            # 如果用户点击确认按钮，则获取输入的文本
+            
             oldID = getID.get_entered_text()
             oldinfo = functions.get_student(self.db, self.cursor, oldID)
             if oldinfo == None:
                 widget = QWidget()
                 QMessageBox.information(widget, '信息', '学生不存在')
             else:
-                self.changeWindow = ChangeStudentWindow(self.db, self.cursor, oldinfo)
+                self.changeWindow = ChangeStudentWindow(self.db, self.cursor, oldinfo, 0)
                 if self.changeWindow.exec():
                     newID = self.changeWindow.get_entered_ID()
                     newName = self.changeWindow.get_entered_Name()
@@ -1440,7 +1454,7 @@ class Main_Window(QWidget):
                     functions.change_student(self.db, self.cursor, oldID, 5, newPhoto)
                     functions.change_studentid(self.db, self.cursor, oldID, newID)
                     widget = QWidget()
-                    QMessageBox.information(widget, '信息', '修改成功') #触发的事件时弹出会话框
+                    QMessageBox.information(widget, '信息', '修改成功') 
 
 
     def delete_prize_for_student(self):
@@ -1472,7 +1486,7 @@ class Main_Window(QWidget):
             else:
                 functions.del_student(self.db, self.cursor, ID)
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '删除成功') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '删除成功') 
 
     def delete_class(self):
         getID = EnterSingleText('删除','课程号')
@@ -1485,7 +1499,7 @@ class Main_Window(QWidget):
             else:
                 functions.del_course(self.db, self.cursor, ID)
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '删除成功') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '删除成功') 
 
     def delete_prize(self):
         getID = EnterSingleText('删除','奖项')
@@ -1498,7 +1512,7 @@ class Main_Window(QWidget):
             else:
                 functions.del_prize(self.db, self.cursor, ID)
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '删除成功') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '删除成功') 
 
     def delete_punishment(self):
         getID = EnterSingleText('删除','惩罚')
@@ -1511,7 +1525,7 @@ class Main_Window(QWidget):
             else:
                 functions.del_punishment(self.db, self.cursor, ID)
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '删除成功') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '删除成功') 
 
 
     def delete_score(self):
@@ -1526,7 +1540,7 @@ class Main_Window(QWidget):
             else:
                 functions.del_score(self.db, self.cursor, newsID, newcID)
                 widget = QWidget()
-                QMessageBox.information(widget, '信息', '删除成功') #触发的事件时弹出会话框
+                QMessageBox.information(widget, '信息', '删除成功') 
 
 
 
@@ -1551,11 +1565,298 @@ class Main_Window(QWidget):
         db_procedures.db_procedures(self.db, self.cursor)
         db_triggers.db_triggers(self.db, self.cursor)
         widget = QWidget()
-        QMessageBox.information(widget, '信息', '成功重置数据库') #触发的事件时弹出会话框
+        QMessageBox.information(widget, '信息', '成功重置数据库') 
 
     def update_func(self):
         db_functions.db_functions(self.db, self.cursor)
         db_procedures.db_procedures(self.db, self.cursor)
         db_triggers.db_triggers(self.db, self.cursor)
         widget = QWidget()
-        QMessageBox.information(widget, '信息', '成功重置了自定义的函数，触发器，存储过程') #触发的事件时弹出会话框
+        QMessageBox.information(widget, '信息', '成功重置了自定义的函数，触发器，存储过程') 
+
+
+class Student_Window(QWidget):
+    def __init__(self, db, cursor, ID, password):
+        super().__init__()
+        self.db = db
+        self.cursor = cursor
+        self.ID = ID
+        self.password = password
+        self.setWindowTitle('学籍管理系统（学生界面）')
+        self.resize(800, 600)
+        
+        self.init_ui()
+        
+    def init_ui(self): 
+        main_layout = QVBoxLayout()
+
+        # 创建选项卡
+        tab_widget = QTabWidget()
+        tab_widget.addTab(self.create_query_box(), '查询相关信息')
+        tab_widget.addTab(self.create_change_box(), '修改信息')
+
+        # 将选项卡添加到主布局
+        main_layout.addWidget(tab_widget)
+        self.setLayout(main_layout)
+
+    def create_query_box(self):
+        box = QGroupBox('查询相关信息')
+        layout = QGridLayout()
+
+        buttons = [
+            ('查询自己的信息', self.query_student),
+            ('查询所有课程', self.query_class),
+            ('查询所有奖项', self.query_prize),
+            ('查询所有惩罚项目', self.query_punishment),
+        ]
+
+        for i, (text, slot) in enumerate(buttons):
+            btn = QPushButton(text)
+            btn.setMinimumSize(100, 50)  # 设置按钮最小尺寸
+            btn.clicked.connect(slot)
+            layout.addWidget(btn, i // 2, i % 2)  # 2列布局
+
+        box.setLayout(layout)
+        return box
+
+    def create_change_box(self):
+        box = QGroupBox('修改操作')
+        layout = QGridLayout()
+
+        buttons = [
+            ('修改自己的信息', self.change_studentinfo),
+            ('修改登录密码', self.change_password),
+        ]
+
+        for i, (text, slot) in enumerate(buttons):
+            btn = QPushButton(text)
+            btn.setMinimumSize(100, 50)  # 设置按钮最小尺寸
+            btn.clicked.connect(slot)
+            layout.addWidget(btn, i // 2, i % 2)  # 2列布局
+
+        box.setLayout(layout)
+        return box
+
+    def query_student(self):
+        info = functions.get_student(self.db, self.cursor, self.ID)
+        if info == None:
+            widget = QWidget()
+            QMessageBox.information(widget, '信息', '学生不存在')
+        else:
+            self.Studentinfo = Studentinfo(self.db, self.cursor, info[0], info[1], info[2], info[3], info[4], info[5])
+            self.Studentinfo.show()
+    
+    def query_class(self):
+        self.tableWindow = ShowAllTable(self.db, self.cursor, 1, '')
+        self.tableWindow.show()
+
+    def query_prize(self):
+        self.tableWindow = ShowAllTable(self.db, self.cursor, 3, '')
+        self.tableWindow.show()
+
+    def query_punishment(self):
+        self.tableWindow = ShowAllTable(self.db, self.cursor, 4, '')
+        self.tableWindow.show()
+
+    def change_studentinfo(self):
+        oldinfo = functions.get_student(self.db, self.cursor, self.ID)
+        self.changeWindow = ChangeStudentWindow(self.db, self.cursor, oldinfo, 1)
+        if self.changeWindow.exec():
+            newName = self.changeWindow.get_entered_Name()
+            newSex = self.changeWindow.get_entered_Sex()
+            newAge = self.changeWindow.get_entered_Age()
+            newMajor = self.changeWindow.get_entered_Major()
+            newPhoto = self.changeWindow.get_entered_Photo()
+            functions.change_student(self.db, self.cursor, self.ID, 1, newName)
+            functions.change_student(self.db, self.cursor, self.ID, 2, newSex)
+            functions.change_student(self.db, self.cursor, self.ID, 3, newAge)
+            functions.change_student(self.db, self.cursor, self.ID, 4, newMajor)
+            functions.change_student(self.db, self.cursor, self.ID, 5, newPhoto)
+            widget = QWidget()
+            QMessageBox.information(widget, '信息', '修改成功')
+
+    def change_password(self):
+        oldpassword = functions.get_password(self.db, self.cursor, self.ID)
+        getpassword = EnterSingleText('修改','密码')
+        if getpassword.exec():
+            newpassword = getpassword.get_entered_text()
+            if oldpassword == newpassword:
+                widget = QWidget()
+                QMessageBox.information(widget, '信息', '新密码不能与旧密码相同')
+            else:
+                functions.change_password(self.db, self.cursor, self.ID, newpassword)
+                widget = QWidget()
+                QMessageBox.information(widget, '信息', '修改成功')
+
+
+class Main_Window(QWidget):
+    def __init__(self, db, cursor):
+        super().__init__()
+        self.db = db
+        self.cursor = cursor
+        self.setWindowTitle("请选择登录方式")
+        self.setGeometry(100, 100, 300, 200)
+        self.initUI()
+
+    def initUI(self):
+        layout = QVBoxLayout()
+
+        # 创建 Admin 按钮
+        self.admin_button = QPushButton("管理员登录", self)
+        self.admin_button.clicked.connect(self.open_admin_window)
+        layout.addWidget(self.admin_button)
+
+        # 创建 Student 按钮
+        self.student_button = QPushButton("学生登录", self)
+        self.student_button.clicked.connect(self.open_student_window)
+        layout.addWidget(self.student_button)
+
+        self.setLayout(layout)
+
+    @pyqtSlot()
+    def open_admin_window(self):
+        # 如果登录成功，打开 Admin_Window
+        self.admin_window = AdminLogin(self.db, self.cursor)
+        self.admin_window.show()
+
+    @pyqtSlot()
+    def open_student_window(self):
+        # 如果登录成功，打开 Student_Window
+        self.student_window = StudentLogin(self.db, self.cursor)
+        self.student_window.show()
+
+class StudentLogin(QWidget):
+    def __init__(self, db, cursor):
+        super().__init__()
+        self.db = db
+        self.cursor = cursor
+        self.setWindowTitle('学生登录')
+        self.resize(320, 200)
+        self.init_ui()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+
+        # 创建 QLabel 对象
+        self.label1 = QLabel("学号：")
+        self.label2 = QLabel("密码：")
+
+        # 创建 QLineEdit 对象
+        self.input_box1 = QLineEdit(self)
+        self.input_box1.setPlaceholderText("在此输入学号...")
+        self.input_box2 = QLineEdit(self)
+        self.input_box2.setPlaceholderText("在此输入密码...")
+
+        # 创建确认按钮
+        self.closeButton = QPushButton('确认', self)
+        self.closeButton.clicked.connect(self.get_text)
+
+        # 设置布局
+        layout1 = QHBoxLayout()
+        layout1.addWidget(self.label1)
+        layout1.addWidget(self.input_box1)
+        layout2 = QHBoxLayout()
+        layout2.addWidget(self.label2)
+        layout2.addWidget(self.input_box2)
+        bottomLayout = QHBoxLayout()
+        bottomLayout.addWidget(self.closeButton)
+        layout.addLayout(layout1)
+        layout.addLayout(layout2)
+        layout.addLayout(bottomLayout)
+        self.setLayout(layout)
+
+    def get_text(self):
+        acceptflag = 0
+        if (len(self.input_box1.text()) != 0):
+            acceptflag += 1
+            ID = self.input_box1.text()
+            info = functions.get_student(self.db, self.cursor, ID)
+            if info == None:
+                widget = QWidget()
+                QMessageBox.information(widget, '信息', '学生不存在')
+                return
+
+        if (len(self.input_box2.text()) != 0):
+            acceptflag += 1
+            password = self.input_box2.text()
+            # print(password)
+            # print(functions.get_password(self.db, self.cursor, ID))
+            if (functions.get_password(self.db, self.cursor, ID) != password):
+                widget = QWidget()
+                QMessageBox.information(widget, '信息', '密码错误')
+                return
+
+        if acceptflag != 2:
+            widget = QWidget()
+            QMessageBox.information(widget, '信息', '缺少信息')
+        else:
+            self.student_window = Student_Window(self.db, self.cursor, ID, password)
+            self.student_window.show()
+            self.close()
+
+
+class AdminLogin(QWidget):
+    def __init__(self, db, cursor):
+        super().__init__()
+        self.db = db
+        self.cursor = cursor
+        self.setWindowTitle('管理员登录')
+        self.resize(320, 200)
+        self.init_ui()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+
+        # 创建 QLabel 对象
+        self.label1 = QLabel("账号")
+        self.label2 = QLabel("密码：")
+
+        # 创建 QLineEdit 对象
+        self.input_box1 = QLineEdit(self)
+        self.input_box1.setPlaceholderText("在此输入账号...")
+        self.input_box2 = QLineEdit(self)
+        self.input_box2.setPlaceholderText("在此输入密码...")
+
+        # 创建确认按钮
+        self.closeButton = QPushButton('确认', self)
+        self.closeButton.clicked.connect(self.get_text)
+
+        # 设置布局
+        layout1 = QHBoxLayout()
+        layout1.addWidget(self.label1)
+        layout1.addWidget(self.input_box1)
+        layout2 = QHBoxLayout()
+        layout2.addWidget(self.label2)
+        layout2.addWidget(self.input_box2)
+        bottomLayout = QHBoxLayout()
+        bottomLayout.addWidget(self.closeButton)
+        layout.addLayout(layout1)
+        layout.addLayout(layout2)
+        layout.addLayout(bottomLayout)
+        self.setLayout(layout)
+
+    def get_text(self):
+        acceptflag = 0
+        if (len(self.input_box1.text()) != 0):
+            acceptflag += 1
+            ID = self.input_box1.text()
+            if ID != "admin":
+                widget = QWidget()
+                QMessageBox.information(widget, '错误', '账号错误')
+                return
+
+        if (len(self.input_box2.text()) != 0):
+            acceptflag += 1
+            password = self.input_box2.text()
+            if password != "admin":
+                widget = QWidget()
+                QMessageBox.information(widget, '错误', '密码错误')
+                return
+
+        if acceptflag != 2:
+            widget = QWidget()
+            QMessageBox.information(widget, '信息', '缺少信息')
+        else:
+            self.Admin_window = Admin_Window(self.db, self.cursor)
+            self.Admin_window.show()
+            self.close()

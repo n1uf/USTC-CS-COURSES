@@ -9,7 +9,7 @@ if __name__ == "__main__":
     try:
         db = pymysql.connect(host='localhost', user='root', passwd='nqy1002_', port=3306, autocommit=False, database="student_management")
     except:
-        print('something wrong!')
+        print('连接数据库失败')
 
     cursor = db.cursor()
 

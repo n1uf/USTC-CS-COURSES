@@ -360,6 +360,26 @@ def get_student_average(db, cursor, sid):
     except Exception as e:
         print(f"ERROR:{e}")
 
+# 5.查询学生获奖时间
+def get_award_date(db, cursor, sid, aname):
+    try:
+        cursor.execute("SELECT adate FROM Award WHERE sid = %s AND aname = %s", (sid, aname))
+        result = cursor.fetchone()
+        return result
+    except Exception as e:
+        print(f"ERROR:{e}")
+        return
+
+# 6.查询学生惩罚时间
+def get_punish_date(db, cursor, sid, pname):
+    try:
+        cursor.execute("SELECT pdate FROM Punish WHERE sid = %s AND pname = %s", (sid, pname))
+        result = cursor.fetchone()
+        return result
+    except Exception as e:
+        print(f"ERROR:{e}")
+        return
+
 # 一些修改操作
 # 1.修改课程属性
 def change_course(db, cursor, ID, num, newinf):
@@ -413,4 +433,26 @@ def change_studentid(db, cursor, old_id, new_id):
     except Exception as e:
         print(f"ERROR:{e}")
         db.rollback()
+        return
+
+
+# 学生界面独有的操作
+# 修改密码
+def change_password(db, cursor, sid, new_password):
+    try:
+        cursor.execute("UPDATE StuLogin SET password = %s WHERE sid = %s", (new_password, sid))
+        db.commit()
+    except Exception as e:
+        print(f"ERROR:{e}")
+        db.rollback()
+        return
+
+# 查询密码
+def get_password(db, cursor, sid):
+    try:
+        cursor.execute("SELECT password FROM StuLogin WHERE sid = %s", (sid,))
+        result = cursor.fetchone()
+        return result[0]
+    except Exception as e:
+        print(f"ERROR:{e}")
         return
