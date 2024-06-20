@@ -35,10 +35,6 @@ def db_procedures(db, cursor):
     except Exception as e:
         print(f"ERROR:{e}")
         db.rollback()
-        cursor.execute("""
-        ALTER TABLE Scores
-        ADD CONSTRAINT Scores_cforeign FOREIGN KEY (cid) REFERENCES Courses (cid);
-        """)
         return
 
     # 2.修改学号

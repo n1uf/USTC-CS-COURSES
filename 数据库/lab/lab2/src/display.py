@@ -920,6 +920,8 @@ class ChangeStudentWindow(QDialog):
 class ChangeClassWindow(QDialog):
     def __init__(self, db, cursor, oldinfo):
         super().__init__()
+        self.db = db
+        self.cursor = cursor
         self.ID = oldinfo[0]
         self.name = oldinfo[1]
         self.credit = oldinfo[2]
@@ -969,12 +971,17 @@ class ChangeClassWindow(QDialog):
         if (len(self.input_box1.text()) != 0):
             acceptflag = True
             self.ID = self.input_box1.text()
+            info = functions.get_course(self.db, self.cursor, self.ID)
+            if (info != None):
+                widget = QWidget()
+                QMessageBox.information(widget, '信息', '该课程号已存在') 
+                return
         if (len(self.input_box2.text()) != 0):
             acceptflag = True
             self.name = self.input_box2.text()
         if (len(self.input_box3.text()) != 0):
             try:
-                self.credit = int(self.input_box3.text())
+                self.credit = float(self.input_box3.text())
                 assert(self.credit > 0 and self.credit < 5)
                 acceptflag = True
             except Exception as e:
@@ -1745,7 +1752,7 @@ class StudentLogin(QWidget):
         self.input_box1 = QLineEdit(self)
         self.input_box1.setPlaceholderText("在此输入学号...")
         self.input_box2 = QLineEdit(self)
-        self.input_box2.setPlaceholderText("在此输入密码...")
+        self.input_box2.setPlaceholderText("在此输入密码（默认为123456）...")
 
         # 创建确认按钮
         self.closeButton = QPushButton('确认', self)
